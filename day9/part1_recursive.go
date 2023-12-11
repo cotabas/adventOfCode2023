@@ -23,10 +23,7 @@ func main() {
       intLine = append(intLine, add)
     }
 
-    fmt.Println(intLine, "   ", result)
     result += work(intLine) + intLine[len(intLine) - 1]
-    fmt.Println(intLine, "   ", result)
-
   }
   fmt.Println(result)
 }
@@ -47,13 +44,11 @@ func work(intLine []int) int {
   var next []int
   for dex, i := range intLine {
     if dex < len(intLine) - 1 {
-      fmt.Println(intLine[dex + 1], "  -  ", i)
       next = append(next, intLine[dex + 1] - i)
     }
   }
   
 
-  fmt.Println(next, "  --  ", " + ", next[len(next) - 1])
   return work(next) + next[len(next) - 1]
 }
 
