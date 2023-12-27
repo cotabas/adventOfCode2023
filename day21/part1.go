@@ -9,6 +9,7 @@ import (
 
 const STEPS int = 64
 var been [][2]int
+var meep map[[2]int][]int
 
 func main() {
   var result int
@@ -33,6 +34,7 @@ func main() {
     }
   }
 
+  meep = make(map[[2]int][]int)
   walk(dots, start, 0)
   result = len(been) + 1 //for the start
   fmt.Println(result)
@@ -40,6 +42,8 @@ func main() {
 
 func walk(dots [][2]int, start [2]int, steps int) {
   if steps == STEPS { return }
+  if slices.Contains(meep[start], steps) { return }
+  meep[start] = append(meep[start], steps)
 
   for i := -1; i <= 1; i += 2 {
     next := [2]int{start[0] + i, start[1]} 
