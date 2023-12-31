@@ -15,19 +15,18 @@ func main() {
   var colList, rowList []int
   distMap := make(map[[2]string]int)
   locMap := make(map[string][2]int) 
-  galMultiplier := 1 
+  galMultiplier := 1//000000 
 
   file, _ := os.ReadFile(os.Args[1])
   rows := strings.Split(string(file), "\n")
   //add galaxy and expand rows
-  for x, row := range rows {
+  for x, row := range rows[:len(rows) - 1] {
     if !strings.Contains(row, "#") {
       rowList = append(rowList, x)
     }
     meep = append(meep, strings.Split(row, ""))
   }
 
-  fmt.Println("rows expanded", rowList)
   //expand columns
   for _, row := range meep {
     for y, pos := range row {
@@ -71,38 +70,33 @@ func main() {
     for sGal, sxy := range locMap {
       var xD, yD int
       if fGal == sGal { continue }
-      fmt.Println("[", fGal, ", ", sGal, "]")
+      //fmt.Println("[", fGal, ", ", sGal, "]")
+      //fmt.Println("[", fxy, ", ", sxy, "]")
       if fxy[0] > sxy[0] {
-        for i := sxy[0] + 1; i < fxy[0]; i++ {
-          fmt.Println(i)
+        for i := sxy[0]; i < fxy[0]; i++ {
           if slices.Contains(rowList, i) {
             xD += galMultiplier
-          }
-          xD++
-          fmt.Println("xD", xD)
+          } else { xD++ }
         }
       } else {
-        for i := fxy[0] + 1; i < sxy[0] - 1; i++ {
+        for i := fxy[0]; i < sxy[0]; i++ {
           if slices.Contains(rowList, i) {
             xD += galMultiplier
-          }
-          xD++
+          } else { xD++ }
         }
       }
       //for y coords
       if fxy[1] > sxy[1] {
-        for i := sxy[1] + 1; i < fxy[1] - 1; i++ {
-          if slices.Contains(colList, i) {
+        for i := sxy[1]; i < fxy[1]; i++ {
+          if !slices.Contains(colList, i) {
             yD += galMultiplier
-          }
-          yD++
+          } else { yD++ }
         }
       } else {
-        for i := fxy[1] + 1; i < sxy[1] - 1; i++ {
-          if slices.Contains(colList, i) {
+        for i := fxy[1]; i < sxy[1]; i++ {
+          if !slices.Contains(colList, i) {
             yD += galMultiplier
-          }
-          yD++
+          } else { yD++ }
         }
       }
       if distMap[[2]string{fGal, sGal}] == 0 && distMap[[2]string{sGal, fGal}] == 0 {
@@ -111,10 +105,10 @@ func main() {
     }
   }
 
-  fmt.Println(distMap)
-  for _, row := range meep {
-    fmt.Println(row)
-  }
+//  fmt.Println(distMap)
+//  for _, row := range meep {
+//    fmt.Println(row)
+//  }
 
   for _, val := range distMap {
     result += val

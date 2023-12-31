@@ -152,8 +152,8 @@ func main() {
     initialState = append(initialState, x)
   }
 
-	rows, cols := 3, 3
-	initialState = []int{1, 7, 3, 0, 5, 6, 4, 8, 2}
+	rows, cols := 5, 5
+//	initialState = []int{1, 7, 3, 0, 5, 6, 4, 8, 2}
   fmt.Println(initialState)
 	moves := AStar(initialState, rows, cols)
 
